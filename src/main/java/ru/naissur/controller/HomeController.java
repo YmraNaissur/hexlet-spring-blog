@@ -8,7 +8,7 @@ public class HomeController {
 
   @GetMapping("/")
   public String home() {
-    return "Welcome to the Hexlet Spring Blog!!!";
+    return "Welcome to the Hexlet Spring Blog!";
   }
 
 }
