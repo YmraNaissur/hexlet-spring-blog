@@ -11,4 +11,12 @@ public class HomeController {
     return "Welcome to the Hexlet Spring Blog!";
   }
 
+  @GetMapping("/about")
+  public String about() {
+    return """
+          This is This is simple Spring blog!<br>
+          It is being modified through the course on Spring Boot.
+        """;
+  }
+
 }
