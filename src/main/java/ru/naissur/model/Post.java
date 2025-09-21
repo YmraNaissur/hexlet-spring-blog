@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class Post {
 
+  private int userId;
   @NotBlank(message = "Title cannot be blank")
   private String title;
   @NotBlank(message = "Content cannot be blank")

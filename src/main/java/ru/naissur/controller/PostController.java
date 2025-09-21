@@ -20,12 +20,12 @@ import ru.naissur.model.Post;
 
 @RestController
 @Validated
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 public class PostController {
 
   List<Post> posts = new ArrayList<>();
 
-  @GetMapping()
+  @GetMapping
   public ResponseEntity<List<Post>> getPosts() {
     if (CollectionUtils.isEmpty(posts)) {
       return ResponseEntity
@@ -51,7 +51,7 @@ public class PostController {
     }
   }
 
-  @PostMapping()
+  @PostMapping
   public ResponseEntity<Post> createPost(@Valid @RequestBody Post post) {
     posts.add(post);
     return ResponseEntity
