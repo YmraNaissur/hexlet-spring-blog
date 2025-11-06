@@ -1,13 +1,13 @@
 package ru.naissur.model;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class User {
 
   private Long id;
