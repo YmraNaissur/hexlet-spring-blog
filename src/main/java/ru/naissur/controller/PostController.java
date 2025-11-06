@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -23,7 +25,19 @@ import ru.naissur.model.Post;
 @RequestMapping("/api/posts")
 public class PostController {
 
+  @Value("${app.welcome-message}")
+  private String welcomeMessage;
+  @Value("${app.admin-email}")
+  private String adminEmail;
+  @Value("${app.page-size}")
+  private int pageSize;
+
   List<Post> posts = new ArrayList<>();
+
+  @GetMapping("/welcome")
+  public String welcome() {
+    return String.format("%s Write emails to %s. Standard page size is %d", welcomeMessage, adminEmail, pageSize);
+  }
 
   @GetMapping
   public ResponseEntity<List<Post>> getPosts() {
