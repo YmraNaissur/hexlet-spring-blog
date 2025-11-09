@@ -1,22 +1,28 @@
 package ru.naissur.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Entity
+@Table(name = "posts")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Post {
 
-  private int userId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @EqualsAndHashCode.Include
+  private Long id;
+
   @NotBlank(message = "Title cannot be blank")
   private String title;
   @NotBlank(message = "Content cannot be blank")
   private String content;
-  private String author;
-  private LocalDateTime createdAt;
+
+  private boolean published;
 
 }

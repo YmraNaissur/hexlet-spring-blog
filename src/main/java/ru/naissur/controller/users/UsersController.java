@@ -1,41 +1,46 @@
 package ru.naissur.controller.users;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.naissur.model.User;
+import ru.naissur.repository.UserRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
 public class UsersController {
 
-  private final List<User> users = new ArrayList<>();
+  @Autowired
+  private UserRepository userRepository;
+
+  @GetMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public User getUser(@PathVariable Long id) {
+    Optional<User> user = userRepository.findById(id);
+    return user.orElseThrow(() -> new EntityNotFoundException("User with id = " + id + " not found"));
+  }
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<User> getAllUsers() {
-    return users;
+    return userRepository.findAll();
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public User createUser(@Valid @RequestBody User user) {
-    users.add(user);
+    userRepository.save(user);
     return user;
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteUser(@PathVariable Long id) {
-    users.removeIf(u -> id.equals(u.getId()));
+    userRepository.deleteById(id);
   }
 }

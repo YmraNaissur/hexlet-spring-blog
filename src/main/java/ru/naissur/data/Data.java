@@ -2,6 +2,8 @@ package ru.naissur.data;
 
 import ru.naissur.model.User;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,12 +22,12 @@ public class Data {
 
     List<User> users = new ArrayList<>();
 
-    users.add(new User(getNextId(), "Max Karavaev", "mokaravaev@yandex.ru"));
+    users.add(new User(getNextId(), "mokaravaev@yandex.ru", "Max", "Karavaev", LocalDate.of(1986, Month.JANUARY, 31)));
 
     List<User> admins = List.of(
-        new User(getNextId(), "Glynn Joinsey", "gjoinsey1@blogger.com"),
-        new User(getNextId(), "Sarina Crosi", "scrosi4@cam.ac.uk"),
-        new User(getNextId(), "Emmit Brundle", "brundle@cam.ac.uk")
+        new User(getNextId(), "gjoinsey1@blogger.com", "Glynn", "Joinsey", LocalDate.of(1987, Month.MARCH, 29)),
+        new User(getNextId(), "scrosi4@cam.ac.uk", "Sarina", "Crosi", LocalDate.of(1990, Month.APRIL, 10)),
+        new User(getNextId(), "brundle@cam.ac.uk", "Emmit", "Brundle", LocalDate.of(1993, Month.DECEMBER, 2))
     );
 
     users.addAll(admins);

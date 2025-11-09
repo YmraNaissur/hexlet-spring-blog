@@ -28,7 +28,7 @@ public class HomeController {
 
     List<String> adminNames = users.stream()
         .filter(user -> adminEmails.contains(user.getEmail()))
-        .map(User::getName)
+        .map(u -> u.getFirstName() + " " + u.getLastName())
         .sorted()
         .toList();
     return ResponseEntity.ok(adminNames);
