@@ -1,9 +1,10 @@
 package ru.naissur.controller;
 
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.naissur.exception.ResourceNotFoundException;
 import ru.naissur.model.Post;
 import ru.naissur.repository.PostRepository;
 
@@ -21,7 +22,7 @@ public class PostController {
   @ResponseStatus(HttpStatus.OK)
   public Post getPostById(@PathVariable Long id) {
     Optional<Post> post = postRepository.findById(id);
-    return post.orElseThrow(() -> new EntityNotFoundException("Post with id = " + id + " not found"));
+    return post.orElseThrow(() -> new ResourceNotFoundException("Post with id = " + id + " not found"));
   }
 
   @GetMapping
@@ -32,7 +33,7 @@ public class PostController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Post createPost(@RequestBody Post post) {
+  public Post createPost(@Valid @RequestBody Post post) {
     postRepository.save(post);
     return post;
   }

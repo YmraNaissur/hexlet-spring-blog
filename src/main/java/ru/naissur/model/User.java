@@ -1,6 +1,7 @@
 package ru.naissur.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -22,8 +23,12 @@ public class User {
   @Column(unique = true)
   private String email;
 
+  @NotBlank(message = "First name is required")
   private String firstName;
+
+  @NotBlank(message = "Last name is required")
   private String lastName;
+
   private LocalDate birthDate;
 
 }

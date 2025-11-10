@@ -18,9 +18,10 @@ public class Post {
   @EqualsAndHashCode.Include
   private Long id;
 
-  @NotBlank(message = "Title cannot be blank")
+  @NotBlank(message = "Title is required")
   private String title;
-  @NotBlank(message = "Content cannot be blank")
+
+  @NotBlank(message = "Content is required")
   private String content;
 
   private boolean published;

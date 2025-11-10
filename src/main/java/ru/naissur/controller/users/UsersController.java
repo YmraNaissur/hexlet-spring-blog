@@ -1,10 +1,10 @@
 package ru.naissur.controller.users;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.naissur.exception.ResourceNotFoundException;
 import ru.naissur.model.User;
 import ru.naissur.repository.UserRepository;
 
@@ -22,7 +22,7 @@ public class UsersController {
   @ResponseStatus(HttpStatus.OK)
   public User getUser(@PathVariable Long id) {
     Optional<User> user = userRepository.findById(id);
-    return user.orElseThrow(() -> new EntityNotFoundException("User with id = " + id + " not found"));
+    return user.orElseThrow(() -> new ResourceNotFoundException("User with id = " + id + " not found"));
   }
 
   @GetMapping
