@@ -1,10 +1,14 @@
 package ru.naissur.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.naissur.exception.ResourceAlreadyExistsException;
 import ru.naissur.exception.ResourceNotFoundException;
 import ru.naissur.model.Product;
 import ru.naissur.repository.ProductRepository;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -33,8 +37,15 @@ public class ProductController {
   }
 
   @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
   public Product createProduct(@RequestBody Product product) {
-    return productRepository.save(product);
+    List<Product> existingProduct = productRepository.findAll();
+    if (existingProduct.contains(product)) {
+      throw new ResourceAlreadyExistsException(
+          "Product with title " + product.getTitle() + " and price " + product.getPrice() + " already exists");
+    } else {
+      return productRepository.save(product);
+    }
   }
 
 }
