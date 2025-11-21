@@ -1,15 +1,25 @@
 package ru.naissur.controller;
 
 import jakarta.validation.Valid;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import ru.naissur.exception.ResourceNotFoundException;
 import ru.naissur.model.Post;
 import ru.naissur.repository.PostRepository;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -27,8 +37,14 @@ public class PostController {
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public List<Post> getAllPosts() {
-    return postRepository.findAll();
+  public Page<Post> getAllPosts(
+      @RequestParam(name = "page", defaultValue = "1") Integer page,
+      @RequestParam(name = "size", defaultValue = "5") Integer size) {
+
+    Sort sort = Sort.by("createdAt").descending();
+    Pageable pageable = PageRequest.of(page - 1, size, sort);
+
+    return postRepository.findByPublishedTrue(pageable);
   }
 
   @PostMapping
