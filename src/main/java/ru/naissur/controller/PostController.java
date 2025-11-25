@@ -1,7 +1,7 @@
 package ru.naissur.controller;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.naissur.exception.ResourceNotFoundException;
@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/posts")
 public class PostController {
 
-  @Autowired
-  private PostRepository postRepository;
+  private final PostRepository postRepository;
 
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)

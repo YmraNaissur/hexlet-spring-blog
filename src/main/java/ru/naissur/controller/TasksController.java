@@ -1,6 +1,6 @@
 package ru.naissur.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.naissur.exception.ResourceNotFoundException;
@@ -10,11 +10,11 @@ import ru.naissur.repository.TasksRepository;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/tasks")
 public class TasksController {
 
-  @Autowired
-  private TasksRepository tasksRepository;
+  private final TasksRepository tasksRepository;
 
   @GetMapping(path = "")
   public List<Task> index() {

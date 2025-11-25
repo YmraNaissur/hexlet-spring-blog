@@ -1,6 +1,6 @@
 package ru.naissur.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.naissur.exception.ResourceAlreadyExistsException;
@@ -11,11 +11,11 @@ import ru.naissur.repository.ProductRepository;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/products")
 public class ProductController {
 
-  @Autowired
-  private ProductRepository productRepository;
+  private final ProductRepository productRepository;
 
   @GetMapping(path = "/{id}")
   public Product findProductById(@PathVariable Long id) {
