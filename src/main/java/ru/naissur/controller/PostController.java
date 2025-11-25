@@ -1,25 +1,15 @@
 package ru.naissur.controller;
 
 import jakarta.validation.Valid;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.naissur.exception.ResourceNotFoundException;
 import ru.naissur.model.Post;
+import ru.naissur.repository.CommentRepository;
 import ru.naissur.repository.PostRepository;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,35 +18,44 @@ public class PostController {
 
   private final PostRepository postRepository;
 
+  private final CommentRepository commentRepository;
+
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public Post getPostById(@PathVariable Long id) {
-    Optional<Post> post = postRepository.findById(id);
-    return post.orElseThrow(() -> new ResourceNotFoundException("Post with id = " + id + " not found"));
+    return postRepository
+        .findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Post with id = " + id + " not found"));
   }
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public Page<Post> getAllPosts(
-      @RequestParam(name = "page", defaultValue = "1") Integer page,
-      @RequestParam(name = "size", defaultValue = "5") Integer size) {
-
-    Sort sort = Sort.by("createdAt").descending();
-    Pageable pageable = PageRequest.of(page - 1, size, sort);
-
-    return postRepository.findByPublishedTrue(pageable);
+  public List<Post> getAllPosts() {
+    return postRepository.findAll();
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Post createPost(@Valid @RequestBody Post post) {
-    postRepository.save(post);
-    return post;
+    return postRepository.save(post);
+  }
+
+  @PutMapping("/{id}")
+  public Post updatePost(@PathVariable Long id, @RequestBody Post post) {
+    var existingPost = postRepository
+        .findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Post with id = " + id + " not found"));
+
+    existingPost.setTitle(post.getTitle());
+    existingPost.setBody(post.getBody());
+
+    return postRepository.save(existingPost);
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deletePost(@PathVariable Long id) {
+    commentRepository.deleteByPostId(id);
     postRepository.deleteById(id);
   }
 
