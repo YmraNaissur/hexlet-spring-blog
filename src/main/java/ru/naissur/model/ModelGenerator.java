@@ -27,7 +27,7 @@ public class ModelGenerator {
 
       var post = new Post();
       post.setTitle(faker.book().title());
-      post.setBody(faker.lorem().paragraph());
+      post.setBody(faker.text().text(10, 100));
       postRepository.save(post);
     }
   }
