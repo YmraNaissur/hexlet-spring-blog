@@ -22,3 +22,5 @@ jobs:
         run: ./gradlew build -x test
       - name: Test
         run: ./gradlew test
+      - name: Coverage report
+        run: ./gradlew jacocoTestReport
