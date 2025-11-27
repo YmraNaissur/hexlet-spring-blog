@@ -1,4 +1,4 @@
-package ru.naissur.controller.users;
+package ru.naissur.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +36,20 @@ public class UsersController {
   public User createUser(@Valid @RequestBody User user) {
     userRepository.save(user);
     return user;
+  }
+
+  @PutMapping("/{id}")
+  public User updateUser(@PathVariable Long id, @RequestBody User user) {
+    var existingUser = userRepository
+        .findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("User with id = " + id + " not found"));
+
+    existingUser.setFirstName(user.getFirstName());
+    existingUser.setLastName(user.getLastName());
+    existingUser.setBirthDate(user.getBirthDate());
+    existingUser.setEmail(user.getEmail());
+
+    return userRepository.save(existingUser);
   }
 
   @DeleteMapping("/{id}")

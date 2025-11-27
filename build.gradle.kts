@@ -25,10 +25,13 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation(platform("org.junit:junit-bom:6.0.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter:6.0.1")
+    testImplementation("net.javacrumbs.json-unit:json-unit-assertj:5.1.0")
+    testImplementation("org.instancio:instancio-junit:5.5.1")
 }
 
-tasks.withType<Test> {
+tasks.test {
     useJUnitPlatform()
 }
