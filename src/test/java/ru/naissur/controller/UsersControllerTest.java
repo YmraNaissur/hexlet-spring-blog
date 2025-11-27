@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.datafaker.Faker;
 import org.instancio.Instancio;
 import org.instancio.Select;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,6 +38,27 @@ class UsersControllerTest {
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @BeforeEach
+  public void setUp() {
+    userRepository.deleteAll();
+  }
+
+  @Test
+  public void testGetUser() throws Exception {
+    var user = Instancio.of(User.class)
+        .ignore(Select.field(User::getId))
+        .supply(Select.field(User::getEmail), () -> "email@example.com")
+        .create();
+    userRepository.save(user);
+
+    var request = get("/api/users/" + user.getId());
+
+    mockMvc.perform(request)
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id").exists())
+        .andExpect(jsonPath("$.email").value("email@example.com"));
+  }
 
   @Test
   public void testGetAllUsers() throws Exception {
@@ -87,5 +109,28 @@ class UsersControllerTest {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.id").exists())
         .andExpect(jsonPath("$.email").value("email@example.com"));
+  }
+
+  @Test
+  public void testDeleteUser() throws Exception {
+    var user = Instancio.of(User.class)
+        .ignore(Select.field(User::getId))
+        .supply(Select.field(User::getEmail), () -> faker.internet().emailAddress())
+        .create();
+
+    userRepository.save(user);
+
+    // first get will return User
+    mockMvc.perform(get("/api/users"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isNotEmpty());
+
+    mockMvc.perform(delete("/api/users/" + user.getId()))
+        .andExpect(status().isNoContent());
+
+    // after deletion there are no Users
+    mockMvc.perform(get("/api/users"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isEmpty());
   }
 }
