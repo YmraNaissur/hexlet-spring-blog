@@ -14,9 +14,11 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: "24"
-      - name: Cache Gradle
-        uses: gradle/actions/setup-gradle@v3
-      - name: Build & Test
-        run: ./gradlew clean build test
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+      - name: Build
+        run: ./gradlew build -x test
+      - name: Test
+        run: ./gradlew test
