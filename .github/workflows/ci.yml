@@ -24,3 +24,10 @@ jobs:
         run: ./gradlew test
       - name: Coverage report
         run: ./gradlew jacocoTestReport
+      - name: Upload JaCoCo report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: |
+            build/reports/jacoco/
+          retention-days: 30
