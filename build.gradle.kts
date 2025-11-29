@@ -1,5 +1,8 @@
 val springBootVersion = "3.5.7"
 val jUnitVersion = "6.0.1"
+val datafakerVersion = "2.5.3"
+val jUnitAssertjVersion = "5.1.0"
+val instancioJunitVersion = "5.5.1"
 
 plugins {
     java
@@ -23,7 +26,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-devtools")
-    implementation("net.datafaker:datafaker:2.5.3")
+    implementation("net.datafaker:datafaker:$datafakerVersion")
 
     runtimeOnly("com.h2database:h2")
 
@@ -33,8 +36,8 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation(platform("org.junit:junit-bom:$jUnitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter:$jUnitVersion")
-    testImplementation("net.javacrumbs.json-unit:json-unit-assertj:5.1.0")
-    testImplementation("org.instancio:instancio-junit:5.5.1")
+    testImplementation("net.javacrumbs.json-unit:json-unit-assertj:$jUnitAssertjVersion")
+    testImplementation("org.instancio:instancio-junit:$instancioJunitVersion")
 }
 
 tasks.test {
