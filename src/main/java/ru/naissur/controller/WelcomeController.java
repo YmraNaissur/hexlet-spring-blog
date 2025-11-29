@@ -1,15 +1,15 @@
 package ru.naissur.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.naissur.daytime.Daytime;
 
 @RestController
+@RequiredArgsConstructor
 public class WelcomeController {
 
-  @Autowired
-  private Daytime daytime;
+  private final Daytime daytime;
 
   @GetMapping(path = "/welcome")
   public String welcome() {

@@ -40,12 +40,12 @@ class UsersControllerTest {
   private ObjectMapper objectMapper;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     userRepository.deleteAll();
   }
 
   @Test
-  public void testGetUser() throws Exception {
+  void testGetUser() throws Exception {
     var user = Instancio.of(User.class)
         .ignore(Select.field(User::getId))
         .supply(Select.field(User::getEmail), () -> "email@example.com")
@@ -61,7 +61,7 @@ class UsersControllerTest {
   }
 
   @Test
-  public void testGetAllUsers() throws Exception {
+  void testGetAllUsers() throws Exception {
     var result = mockMvc.perform(get("/api/users"))
         .andExpect(status().isOk())
         .andReturn();
@@ -71,7 +71,7 @@ class UsersControllerTest {
   }
 
   @Test
-  public void testUpdateUser() throws Exception {
+  void testUpdateUser() throws Exception {
     var user = Instancio.of(User.class)
         .ignore(Select.field(User::getId))
         .supply(Select.field(User::getEmail), () -> faker.internet().emailAddress())
@@ -95,7 +95,7 @@ class UsersControllerTest {
   }
 
   @Test
-  public void testCreateUser_201_andBody() throws Exception {
+  void testCreateUser_201_andBody() throws Exception {
     var user = new User();
     user.setEmail("email@example.com");
     user.setFirstName("John");
@@ -112,7 +112,7 @@ class UsersControllerTest {
   }
 
   @Test
-  public void testDeleteUser() throws Exception {
+  void testDeleteUser() throws Exception {
     var user = Instancio.of(User.class)
         .ignore(Select.field(User::getId))
         .supply(Select.field(User::getEmail), () -> faker.internet().emailAddress())

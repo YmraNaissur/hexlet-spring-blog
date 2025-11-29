@@ -9,8 +9,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class Data {
-  private static final int ITEMS_COUNT = 4;
 
+  private Data() {
+    // private constructor to prevent instantiation
+  }
+
+  private static final int ITEMS_COUNT = 4;
   private static int idCounter = ITEMS_COUNT;
 
   public static List<User> getUsers() {
