@@ -1,3 +1,6 @@
+val springBootVersion = "3.5.7"
+val jUnitVersion = "6.0.1"
+
 plugins {
     java
     jacoco
@@ -18,7 +21,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.5.7")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-devtools")
     implementation("net.datafaker:datafaker:2.5.3")
 
@@ -28,8 +31,8 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
-    testImplementation(platform("org.junit:junit-bom:6.0.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter:6.0.1")
+    testImplementation(platform("org.junit:junit-bom:$jUnitVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter:$jUnitVersion")
     testImplementation("net.javacrumbs.json-unit:json-unit-assertj:5.1.0")
     testImplementation("org.instancio:instancio-junit:5.5.1")
 }
@@ -59,5 +62,6 @@ sonar {
         property("sonar.java.coveragePlugin", "jacoco")
         property("sonar.junit.reportPaths", "build/test-results/test")
         property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+        property("sonar.exclusions", "**/verification-metadata.xml")
     }
 }
