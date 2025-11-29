@@ -1,6 +1,7 @@
 plugins {
     java
     jacoco
+    id("org.sonarqube") version "7.1.0.6387"
     id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.3"
     id("io.freefair.lombok") version "9.0.0-rc2"
@@ -47,4 +48,16 @@ tasks.jacocoTestReport {
 
 tasks.check {
     dependsOn(tasks.jacocoTestReport)
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "YmraNaissur_hexlet-spring-blog")
+        property("sonar.organization", "ymranaissur")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.java.coveragePlugin", "jacoco")
+        property("sonar.junit.reportPaths", "build/test-results/test")
+        property("sonar.jacoco.reportPaths", "build/jacoco/test.exec")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+    }
 }
