@@ -31,11 +31,7 @@ jobs:
           path: |
             build/reports/jacoco/
           retention-days: 30
-      - name: Generate verification metadata
-        run: |
-          ./gradlew --write-verification-metadata sha256 help
-          git add gradle/verification-metadata.xml
       - name: SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew sonarqube -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew sonar -Dsonar.token=${{ secrets.SONAR_TOKEN }}
