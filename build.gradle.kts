@@ -55,9 +55,9 @@ sonar {
         property("sonar.projectKey", "YmraNaissur_hexlet-spring-blog")
         property("sonar.organization", "ymranaissur")
         property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.test", "src/test")
         property("sonar.java.coveragePlugin", "jacoco")
         property("sonar.junit.reportPaths", "build/test-results/test")
-        property("sonar.jacoco.reportPaths", "build/jacoco/test.exec")
         property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
