@@ -48,7 +48,8 @@ class UsersControllerTest {
   void testGetUser() throws Exception {
     var user = Instancio.of(User.class)
         .ignore(Select.field(User::getId))
-        .supply(Select.field(User::getEmail), () -> "email@example.com")
+        .supply(Select.field(User::getFirstName), () -> "Jeremy")
+        .supply(Select.field(User::getLastName), () -> "Irons")
         .create();
     userRepository.save(user);
 
@@ -57,7 +58,7 @@ class UsersControllerTest {
     mockMvc.perform(request)
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id").exists())
-        .andExpect(jsonPath("$.email").value("email@example.com"));
+        .andExpect(jsonPath("$.userName").value("Jeremy Irons"));
   }
 
   @Test

@@ -4,12 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.naissur.dto.UserDTO;
 import ru.naissur.exception.ResourceNotFoundException;
+import ru.naissur.mapper.UserMapper;
 import ru.naissur.model.User;
 import ru.naissur.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,18 +18,25 @@ import java.util.Optional;
 public class UsersController {
 
   private final UserRepository userRepository;
+  private final UserMapper userMapper;
 
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public User getUser(@PathVariable Long id) {
-    Optional<User> user = userRepository.findById(id);
-    return user.orElseThrow(() -> new ResourceNotFoundException("User with id = " + id + " not found"));
+  public UserDTO getUser(@PathVariable Long id) {
+    User user = userRepository
+        .findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("User with id = " + id + " not found"));
+
+    return userMapper.toDTO(user);
   }
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public List<User> getAllUsers() {
-    return userRepository.findAll();
+  public List<UserDTO> getAllUsers() {
+    List<User> users = userRepository.findAll();
+    return users.stream()
+        .map(userMapper::toDTO)
+        .toList();
   }
 
   @PostMapping

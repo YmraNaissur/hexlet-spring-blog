@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.naissur.dto.PostDTO;
 import ru.naissur.exception.ResourceNotFoundException;
+import ru.naissur.mapper.PostMapper;
 import ru.naissur.model.Post;
 import ru.naissur.repository.CommentRepository;
 import ru.naissur.repository.PostRepository;
@@ -17,21 +19,24 @@ import java.util.List;
 public class PostController {
 
   private final PostRepository postRepository;
-
   private final CommentRepository commentRepository;
+  private final PostMapper postMapper;
 
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public Post getPostById(@PathVariable Long id) {
-    return postRepository
+  public PostDTO getPostById(@PathVariable Long id) {
+    var post = postRepository
         .findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Post with id = " + id + " not found"));
+    return postMapper.toDTO(post);
   }
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public List<Post> getAllPosts() {
-    return postRepository.findAll();
+  public List<PostDTO> getAllPosts() {
+    return postRepository.findAll().stream()
+        .map(postMapper::toDTO)
+        .toList();
   }
 
   @PostMapping
