@@ -16,7 +16,7 @@ class PostMapperTest {
   }
 
   @Test
-  public void testMapToDTO() {
+  void testMapToDTO() {
     // arrange
     Post post = new Post();
     post.setId(1L);

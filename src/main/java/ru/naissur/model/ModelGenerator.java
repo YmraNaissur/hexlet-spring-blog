@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import net.datafaker.Faker;
 import org.springframework.stereotype.Component;
+import ru.naissur.repository.CommentRepository;
 import ru.naissur.repository.PostRepository;
 import ru.naissur.repository.UserRepository;
 
@@ -14,6 +15,7 @@ public class ModelGenerator {
   private final Faker faker;
   private final UserRepository userRepository;
   private final PostRepository postRepository;
+  private final CommentRepository commentRepository;
 
   @PostConstruct
   public void generateData() {
@@ -27,8 +29,13 @@ public class ModelGenerator {
 
       var post = new Post();
       post.setTitle(faker.book().title());
-      post.setBody(faker.text().text(10, 100));
+      post.setBody(faker.lorem().sentence(5, 5));
       postRepository.save(post);
+
+      var comment = new Comment();
+      comment.setPostId((long) i + 1);
+      comment.setBody(faker.lorem().sentence(3, 5));
+      commentRepository.save(comment);
     }
   }
 
