@@ -1,4 +1,4 @@
-package ru.naissur.dto;
+package ru.naissur.dto.post;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

@@ -1,7 +1,8 @@
-package ru.naissur.dto;
+package ru.naissur.dto.post;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.naissur.dto.CommentDTO;
 
 import java.util.List;
 

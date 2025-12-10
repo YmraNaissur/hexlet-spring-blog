@@ -1,8 +1,8 @@
 package ru.naissur.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.naissur.dto.PostCreateDTO;
-import ru.naissur.dto.PostDTO;
+import ru.naissur.dto.post.PostCreateDTO;
+import ru.naissur.dto.post.PostDTO;
 import ru.naissur.model.Post;
 
 @Component
