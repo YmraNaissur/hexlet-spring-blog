@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.naissur.dto.PostCreateDTO;
 import ru.naissur.dto.PostDTO;
 import ru.naissur.exception.ResourceNotFoundException;
 import ru.naissur.mapper.CommentMapper;
@@ -63,8 +64,10 @@ public class PostController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Post createPost(@Valid @RequestBody Post post) {
-    return postRepository.save(post);
+  public PostDTO createPost(@Valid @RequestBody PostCreateDTO postCreateDTO) {
+    Post post = postMapper.toEntity(postCreateDTO);
+    Post savedPost = postRepository.save(post);
+    return postMapper.toDTO(savedPost);
   }
 
   @PutMapping("/{id}")
