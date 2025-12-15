@@ -7,9 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PostCreateDTO {
-
-  private String slug;
+public class PostUpdateDTO {
 
   @NotBlank
   @Size(min = 3, max = 100)
@@ -18,4 +16,5 @@ public class PostCreateDTO {
   @NotBlank
   @Size(min = 10)
   private String body;
+
 }

@@ -1,5 +1,6 @@
-package ru.naissur.dto.post;
+package ru.naissur.dto.product;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -7,15 +8,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PostCreateDTO {
-
-  private String slug;
+public class ProductUpdateDTO {
 
   @NotBlank
-  @Size(min = 3, max = 100)
+  @Size(max = 100)
   private String title;
 
   @NotBlank
-  @Size(min = 10)
-  private String body;
+  @Min(0)
+  private int price;
+
 }

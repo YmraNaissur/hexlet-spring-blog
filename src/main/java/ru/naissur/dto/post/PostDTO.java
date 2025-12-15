@@ -11,6 +11,7 @@ import java.util.List;
 public class PostDTO {
 
   private Long id;
+  private String slug;
   private String title;
   private String body;
   private List<CommentDTO> comments;

@@ -4,9 +4,15 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "products")
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @EqualsAndHashCode(of = {"title", "price"})
@@ -17,6 +23,13 @@ public class Product {
   private Long id;
 
   private String title;
-  private int price;
+  private Integer price;
+  private Long vendorCode;
+
+  @LastModifiedDate
+  private LocalDate updatedAt;
+
+  @CreatedDate
+  private LocalDate createdAt;
 
 }

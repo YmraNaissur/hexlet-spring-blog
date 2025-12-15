@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.naissur.dto.post.PostCreateDTO;
 import ru.naissur.dto.post.PostDTO;
+import ru.naissur.dto.post.PostUpdateDTO;
 import ru.naissur.exception.ResourceNotFoundException;
 import ru.naissur.mapper.CommentMapper;
 import ru.naissur.mapper.PostMapper;
@@ -71,15 +72,15 @@ public class PostController {
   }
 
   @PutMapping("/{id}")
-  public Post updatePost(@PathVariable Long id, @RequestBody Post post) {
+  @ResponseStatus(HttpStatus.OK)
+  public PostDTO updatePost(@RequestBody @Valid PostUpdateDTO postData, @PathVariable Long id) {
     var existingPost = postRepository
         .findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Post with id = " + id + " not found"));
 
-    existingPost.setTitle(post.getTitle());
-    existingPost.setBody(post.getBody());
-
-    return postRepository.save(existingPost);
+    postMapper.enrichPost(postData, existingPost);
+    var savedPost = postRepository.save(existingPost);
+    return postMapper.toDTO(savedPost);
   }
 
   @DeleteMapping("/{id}")

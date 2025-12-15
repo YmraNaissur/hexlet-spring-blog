@@ -6,6 +6,7 @@ import net.datafaker.Faker;
 import org.springframework.stereotype.Component;
 import ru.naissur.repository.CommentRepository;
 import ru.naissur.repository.PostRepository;
+import ru.naissur.repository.ProductRepository;
 import ru.naissur.repository.UserRepository;
 
 @Component
@@ -16,6 +17,7 @@ public class ModelGenerator {
   private final UserRepository userRepository;
   private final PostRepository postRepository;
   private final CommentRepository commentRepository;
+  private final ProductRepository productRepository;
 
   @PostConstruct
   public void generateData() {
@@ -28,6 +30,7 @@ public class ModelGenerator {
       userRepository.save(user);
 
       var post = new Post();
+      post.setSlug(faker.lorem().characters(4));
       post.setTitle(faker.book().title());
       post.setBody(faker.lorem().sentence(5, 5));
       postRepository.save(post);
@@ -36,6 +39,12 @@ public class ModelGenerator {
       comment.setPostId((long) i + 1);
       comment.setBody(faker.lorem().sentence(3, 5));
       commentRepository.save(comment);
+
+      var product = new Product();
+      product.setTitle(faker.commerce().productName());
+      product.setPrice(Integer.valueOf(faker.number().digits(3)));
+      product.setVendorCode(Long.valueOf(faker.number().digits(5)));
+      productRepository.save(product);
     }
   }
 
