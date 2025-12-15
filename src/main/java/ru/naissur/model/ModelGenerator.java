@@ -28,6 +28,7 @@ public class ModelGenerator {
       userRepository.save(user);
 
       var post = new Post();
+      post.setSlug(faker.lorem().characters(4));
       post.setTitle(faker.book().title());
       post.setBody(faker.lorem().sentence(5, 5));
       postRepository.save(post);

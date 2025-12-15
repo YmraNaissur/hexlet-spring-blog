@@ -19,6 +19,8 @@ public class Post {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  private String slug;
+
   private String title;
 
   private String body;
