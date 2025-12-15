@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import ru.naissur.dto.product.ProductDTO;
+import ru.naissur.dto.product.ProductUpdateDTO;
 import ru.naissur.exception.ResourceAlreadyExistsException;
 import ru.naissur.exception.ResourceNotFoundException;
+import ru.naissur.mapper.ProductMapper;
 import ru.naissur.model.Product;
 import ru.naissur.repository.ProductRepository;
 
@@ -24,6 +27,8 @@ import ru.naissur.repository.ProductRepository;
 public class ProductController {
 
   private final ProductRepository productRepository;
+
+  private final ProductMapper productMapper;
 
   @GetMapping(path = "")
   public List<Product> findFilteredByPrice(@RequestParam(required = false) Integer min, @RequestParam(required = false) Integer max) {
@@ -50,15 +55,15 @@ public class ProductController {
   }
 
   @PutMapping(path = "/{id}")
-  public Product updateProduct(@PathVariable Long id, @RequestBody Product source) {
-    Product target = productRepository
+  @ResponseStatus(HttpStatus.OK)
+  public ProductDTO updateProduct(@PathVariable Long id, @RequestBody ProductUpdateDTO source) {
+    Product existingProduct = productRepository
         .findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Product with id " + id + " not found"));
 
-    target.setTitle(source.getTitle());
-    target.setPrice(source.getPrice());
-    productRepository.save(target);
-    return target;
+    productMapper.enrich(source, existingProduct);
+    var savedProduct = productRepository.save(existingProduct);
+    return productMapper.toDTO(savedProduct);
   }
 
   @PostMapping
